@@ -19,6 +19,14 @@ const checkValid = (state) => {
   state.valid = valid
 }
 
+const disabledAddBtn = (state) => {
+  for (let stu of state.arrStudent) {
+    if(state.student.maSV === stu.maSV) {
+      state.valid = false;
+    }
+  }
+}
+
 const initialState = {
     arrStudent: arrStorage(),
     student: {maSV:'', hoTen:'', soDienThoai:'', email:''},
@@ -36,7 +44,8 @@ const sinhVienReducer = createSlice({
       let {values,errors} = action.payload;
       state.student = values;
       state.errors = errors;
-      checkValid(state)
+      checkValid(state);
+      disabledAddBtn(state)
     },
 
     addStudent: (state,action) => {
@@ -63,7 +72,6 @@ const sinhVienReducer = createSlice({
       let stuEdit = state.arrStudent.find(stu => stu.maSV === id); 
       state.student = stuEdit;
       state.flag = true;
-      state.valid = false;
     },
 
     updateStudent: (state,action) => {
